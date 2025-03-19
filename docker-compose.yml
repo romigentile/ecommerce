@@ -1,0 +1,29 @@
+services:
+  web:
+    build: .
+    container_name: ecommerce_backend
+    ports:
+      - "3000:3000"  # Expone el puerto 3000
+    volumes:
+      - .:/app  # Monta el directorio actual en /app dentro del contenedor
+    environment:
+      - NODE_ENV=development  # Establece la variable de entorno para desarrollo
+      - DB_HOST=db  # Nombre del servicio de base de datos
+      - DB_USER=postgres
+      - DB_PASSWORD=jazmin0504
+      - DB_NAME=ecommerce_romigentile
+    depends_on:
+      - db  # Asegura que la base de datos se inicie antes que el backend
+
+  db:
+    image: postgres:13
+    container_name: ecommerce_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: jazmin0504
+      POSTGRES_DB: ecommerce_romigentile
+    volumes:
+      - db_data:/var/lib/postgresql/data  # Volumen para persistencia de datos
+
+volumes:
+  db_data:  # Crea un volumen persistente para la base de datos
